@@ -1,0 +1,35 @@
+#include <Servo.h>
+
+const int buttonPin = 7;
+const int ledPin = 2;
+const int servoPin = 9;  // Digital pin for the servo
+
+int buttonState = 0;
+
+Servo doorServo;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+  
+  doorServo.attach(servoPin);  // Attaching the servo to the pin
+}
+
+void loop() {
+  buttonState = digitalRead(buttonPin);
+
+  if (buttonState == HIGH) {
+    // Restroom is occupied
+    digitalWrite(ledPin, HIGH);
+
+    // Open the door (rotate the servo)
+    doorServo.write(90);  // Angle to open the door
+
+  } else {
+    // Restroom is vacant
+    digitalWrite(ledPin, LOW);
+
+    // Close the door (return the servo to its initial position)
+    doorServo.write(0);  // Angle to close the door
+  }
+}
